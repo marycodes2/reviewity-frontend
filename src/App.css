@@ -31,3 +31,14 @@
     transform: rotate(360deg);
   }
 }
+
+/* My CSS */
+
+.title {
+  text-align: center;
+  padding: 300px 0;
+}
+
+.ui .header {
+  color: #40E0D4;
+}
