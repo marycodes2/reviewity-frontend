@@ -1,6 +1,6 @@
 import React from 'react';
 import MenuBar from './MenuBar'
-import { Container, Divider, Grid, Header } from 'semantic-ui-react'
+import { Button, Container, Divider, Grid, Header } from 'semantic-ui-react'
 import CSSTransition from 'react-transition-group/CSSTransition';
 
 class MainPage extends React.Component {
@@ -32,25 +32,16 @@ class MainPage extends React.Component {
                   className='title'
                 >
                   <Header as='h1'>
-                    Software for Good
+                    Reviewity
                   </Header>
                   <Divider />
                     <p>
-                      After becoming a software engineer, I began to wonder if I had
-                      made a mistake. Is the software that we build contributing to the
-                      distance between us as humans? If "social networks" can lead to
-                      our isolation, is there software that can bring us together? What
-                      does that look like? Let's find out together.
+                      personal reviews. currated community.
                     </p>
 
-                    <p>
-                      Each week, I profile an organization/person/robot that is
-                      building software for good. I ask them about their stack,
-                      their impact, and the people they serve. I get to the heart
-                      of their human impact, and try to understand what the world would
-                      look like without their product. Together, let's embark on a journey
-                      to understand, utilize, and create Software for Good.
-                    </p>
+                  <Button>
+                    Get Started
+                  </Button>
                 </Container>
               </CSSTransition>
             </Grid.Column>
