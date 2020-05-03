@@ -36,7 +36,12 @@ class Newsfeed extends React.Component {
               <Card.Group>
               {
                 posts.map((post) => {
-                  return <Post post={post} />
+                  return (
+                    <Post
+                      key={`post-${post.id}`}
+                      post={post}
+                      />
+                  )
                 })
               }
               </Card.Group>

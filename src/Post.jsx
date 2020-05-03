@@ -16,7 +16,12 @@ class Post extends React.Component {
         <Card.Content>
           {
             post.comments.map((comment) => {
-              return <PostComment comment={comment}/>
+              return (
+                <PostComment
+                  key={`comment-${comment.id}`}
+                  comment={comment}
+                />
+              )
             })
           }
         </Card.Content>
