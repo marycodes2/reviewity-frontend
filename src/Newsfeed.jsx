@@ -5,26 +5,26 @@ import { Button, Card, Divider, Grid, Header } from 'semantic-ui-react'
 
 class Newsfeed extends React.Component {
   state = {
-    posts: [
-      {
-        author: "Mary",
-        subject: "Fitness",
-        content: "What do you think of obe?",
-        comments: [
-          {
-            author: "Joseph",
-            content: "ADORE THEM",
-          }
-        ],
-      }
-    ],
+    posts: [],
+    fetching: true,
   }
 
   componentDidMount() {
+    this.fetchPosts()
+  }
+
+  fetchPosts = () => {
+    fetch('http://localhost:3000/api/v1/newsfeeds')
+      .then(result => result.json())
+      .then(data => this.setState({posts: data, fetching: false}))
   }
 
   render() {
-    const { posts } = this.state;
+    const { posts, fetching } = this.state;
+
+    if (fetching) {
+      return <h4>Fetching!</h4>
+    }
 
     return (
       <React.Fragment>
@@ -32,7 +32,7 @@ class Newsfeed extends React.Component {
         <Grid columns={3}>
           <Grid.Row>
             <Grid.Column></Grid.Column>
-            <Grid.Column mobile={16} tablet={8} computer={4}>
+            <Grid.Column>
               <Card.Group>
               {
                 posts.map((post) => {
