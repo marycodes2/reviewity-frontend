@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react'
 
-const MenuBar = () => {
+const MenuBar = (props) => {
   return (
     <Menu secondary>
       <Menu.Menu position='right'>
@@ -9,12 +9,10 @@ const MenuBar = () => {
           About
         </Menu.Item>
 
-        <Menu.Item>
-          Contact
-        </Menu.Item>
-
-        <Menu.Item>
-          Subscribe
+        <Menu.Item
+          onClick={props.handleLogout}
+        >
+          Log out
         </Menu.Item>
       </Menu.Menu>
     </Menu>

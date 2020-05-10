@@ -1,7 +1,8 @@
 import React from 'react';
 import MenuBar from './MenuBar'
+import CreatePost from './CreatePost'
 import Post from './Post'
-import { Button, Card, Divider, Grid, Header } from 'semantic-ui-react'
+import { Card, Grid, Loader } from 'semantic-ui-react'
 
 class Newsfeed extends React.Component {
   state = {
@@ -13,31 +14,61 @@ class Newsfeed extends React.Component {
     this.fetchPosts()
   }
 
+  addNewPost = (newPost) => {
+    const { posts } = this.state;
+
+    const newPosts = [newPost, ...posts]
+
+    this.setState({posts: newPosts})
+  }
+
+  deletePost = (deletedPost) => {
+    const { posts } = this.state;
+
+    const newPosts = posts.filter(post => {
+      return post.id !== deletedPost.id
+    })
+
+    this.setState({posts: newPosts})
+  }
+
   fetchPosts = () => {
-    fetch('http://localhost:3000/api/v1/newsfeeds')
+    fetch('http://localhost:3000/api/v1/posts')
       .then(result => result.json())
       .then(data => this.setState({posts: data, fetching: false}))
   }
 
   render() {
     const { posts, fetching } = this.state;
+    const { currentUser } = this.props;
 
     if (fetching) {
-      return <h4>Fetching!</h4>
+      return <Loader />
     }
 
     return (
       <React.Fragment>
-        <MenuBar />
+        <MenuBar handleLogout={this.props.handleLogout}/>
         <Grid columns={3}>
           <Grid.Row>
             <Grid.Column></Grid.Column>
             <Grid.Column>
+              <CreatePost
+                addNewPost={this.addNewPost}
+                currentUser={currentUser}
+              />
+
+              <br />
+
+              <br />
+
               <Card.Group>
               {
                 posts.map((post) => {
                   return (
                     <Post
+                      currentUser={currentUser}
+                      deletePost={this.deletePost}
                       key={`post-${post.id}`}
                       post={post}
                       />
