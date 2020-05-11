@@ -32,6 +32,21 @@ class Newsfeed extends React.Component {
     this.setState({posts: newPosts})
   }
 
+  editPost = (editedPost) => {
+    const { posts } = this.state;
+
+    const newPosts = posts.map(post => {
+      if (post.id === editedPost.id) {
+        return editedPost
+      }
+      else {
+        return post
+      }
+    })
+
+    this.setState({posts: newPosts})
+  }
+
   fetchPosts = () => {
     fetch('http://localhost:3000/api/v1/posts')
       .then(result => result.json())
@@ -69,6 +84,7 @@ class Newsfeed extends React.Component {
                     <Post
                       currentUser={currentUser}
                       deletePost={this.deletePost}
+                      editPost={this.editPost}
                       key={`post-${post.id}`}
                       post={post}
                       />
