@@ -1,37 +1,65 @@
 import React from 'react';
-import { Button, Comment, Header, Form } from 'semantic-ui-react'
+import { Button, Comment, Divider, Icon } from 'semantic-ui-react'
 
-class PostComment extends React.Component {
-  render() {
-    const { comment } = this.props;
+const PostComment = (props) => {
+  const { comment, currentUser, deleteComment } = props;
+  const currentUserOwnsComment = comment.author_id === currentUser.id;
 
-    return (
-      <>
-        <Header as='h5'>
-          Comments
-        </Header>
+  const handleCommentDestroy = () => {
+    const token = localStorage.getItem('token')
 
-        <Comment>
-          <Comment.Content>
-            <Comment.Author>
-              {comment.author}
-            </Comment.Author>
-
-            <Comment.Text>
-              {comment.content}
-            </Comment.Text>
-          </Comment.Content>
-        </Comment>
-
-        <br />
-
-        <Form reply>
-          <Form.TextArea placeholder='I think..'/>
-          <Button content='Add Reply' labelPosition='left' icon='edit' primary />
-        </Form>
-      </>
-    );
+    fetch(`http://localhost:3000/api/v1/comments/${comment.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(result => result.json())
+      .then(data => {
+        deleteComment(data)
+      })
+      .catch(err => {
+        debugger;
+      })
   }
+
+  const renderDeleteButton = () => {
+    if (currentUserOwnsComment) {
+      return (
+        <Button
+          icon
+          onClick={handleCommentDestroy}
+          size='tiny'
+        >
+          <Icon name='trash'/>
+        </Button>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  return (
+    <>
+      <Comment>
+        <Comment.Content>
+          <Comment.Author>
+            {comment.author}
+          </Comment.Author>
+
+          <Comment.Text>
+            {comment.content}
+          </Comment.Text>
+
+          {renderDeleteButton()}
+        </Comment.Content>
+      </Comment>
+
+      <Divider />
+    </>
+  );
 };
 
 export default PostComment;

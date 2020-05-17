@@ -30,7 +30,7 @@ const UpdatePost = (props) => {
 
   if (currentUserOwnsPost) {
     return (
-      <Card.Content>
+      <>
         <Button size='tiny' icon onClick={editPost}>
           <Icon name={editPostIcon}/>
         </Button>
@@ -38,7 +38,7 @@ const UpdatePost = (props) => {
         <Button size='tiny' icon onClick={handlePostDestroy}>
           <Icon name='trash'/>
         </Button>
-      </Card.Content>
+      </>
     )
   } else {
 

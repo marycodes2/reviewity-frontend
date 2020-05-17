@@ -47,6 +47,53 @@ class Newsfeed extends React.Component {
     this.setState({posts: newPosts})
   }
 
+  addComment = (comment) => {
+    const { posts } = this.state;
+
+    const editedPosts = posts.map(post => {
+      if (post.id === comment.post_id) {
+        const updatedComments = [...post.comments, comment]
+
+        return {
+          author: post.author,
+          author_id: post.author_id,
+          comments: updatedComments,
+          content: post.content,
+          id: post.id,
+          subject: post.subject,
+        }
+      } else {
+        return post
+      }
+    })
+
+    this.setState({posts: editedPosts})
+  }
+
+
+  deleteComment = (deletedComment) => {
+    const { posts } = this.state;
+
+    const newPosts = posts.map(post => {
+      if (post.id === deletedComment.post_id) {
+        const updatedComments = post.comments.filter(comment => comment.id !== deletedComment.id)
+
+        return {
+          author: post.author,
+          author_id: post.author_id,
+          comments: updatedComments,
+          content: post.content,
+          id: post.id,
+          subject: post.subject,
+        }
+      } else {
+        return post
+      }
+    })
+
+    this.setState({posts: newPosts})
+  }
+
   fetchPosts = () => {
     fetch('http://localhost:3000/api/v1/posts')
       .then(result => result.json())
@@ -82,7 +129,9 @@ class Newsfeed extends React.Component {
                 posts.map((post) => {
                   return (
                     <Post
+                      addComment={this.addComment}
                       currentUser={currentUser}
+                      deleteComment={this.deleteComment}
                       deletePost={this.deletePost}
                       editPost={this.editPost}
                       key={`post-${post.id}`}

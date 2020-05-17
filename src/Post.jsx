@@ -1,12 +1,14 @@
 import React from 'react';
 import PostComment from './PostComment'
 import UpdatePost from './UpdatePost'
-import { Card, Label, Form, TextArea } from 'semantic-ui-react'
+import AddComment from './AddComment'
+import { Button, Card, Header, Label, Form, TextArea } from 'semantic-ui-react'
 
 class Post extends React.Component {
   state = {
     editing: false,
     editedPostContent: this.props.post.content,
+    viewComments: false,
   }
 
   determineColor = (subject) => {
@@ -84,6 +86,66 @@ class Post extends React.Component {
     }
   }
 
+  renderComments = () => {
+    const { currentUser, deleteComment, post } = this.props;
+    const { viewComments } = this.state;
+
+     if (post.comments.length > 0 && viewComments) {
+      return (
+        <Card.Content>
+          <Header as='h5'>
+            Comments
+          </Header>
+
+          {
+            post.comments.map((comment) => {
+              return (
+                <PostComment
+                  comment={comment}
+                  currentUser={currentUser}
+                  deleteComment={deleteComment}
+                  key={`comment-${comment.id}`}
+                />
+              )
+            })
+          }
+      </Card.Content>
+      )
+    }
+  }
+
+  renderCommentInfo = () => {
+    const { viewComments } = this.state;
+    const { post: { comments } } = this.props;
+    const commentLength = comments.length
+    const commentButtonContent = commentLength === 1 ?  "1 comment" : commentLength + " comments"
+
+
+    if (comments.length > 0) {
+      return (
+        <>
+          <Button
+            size='tiny'
+            onClick={() => this.setState({viewComments: !viewComments})}
+          >
+            { viewComments ? "Hide Comments" : commentButtonContent }
+          </Button>
+        </>
+      )
+    } else {
+       return (
+         <>
+           No Comments
+        </>
+      )
+    }
+  }
+
+  addCommentToPost = (comment) => {
+    this.setState({viewComments: true})
+    this.props.addComment(comment)
+  }
+
   render() {
     const { currentUser, deletePost, post } = this.props;
     const { editing } = this.state;
@@ -99,30 +161,25 @@ class Post extends React.Component {
           {this.cardDescription()}
         </Card.Content>
 
-        <UpdatePost
+        <Card.Content>
+          <UpdatePost
+            currentUser={currentUser}
+            deletePost={deletePost}
+            editing={editing}
+            editPost={this.editPost}
+            post={post}
+          />
+
+          {this.renderCommentInfo()}
+        </Card.Content>
+
+        <AddComment
+          addComment={this.addCommentToPost}
           currentUser={currentUser}
-          deletePost={deletePost}
-          editing={editing}
-          editPost={this.editPost}
           post={post}
         />
 
-        {
-          post.comments.length > 1 && (
-            <Card.Content>
-              {
-                post.comments.map((comment) => {
-                  return (
-                    <PostComment
-                      key={`comment-${comment.id}`}
-                      comment={comment}
-                    />
-                  )
-                })
-              }
-            </Card.Content>
-          )
-        }
+        {this.renderComments()}
       </Card>
     );
   }
