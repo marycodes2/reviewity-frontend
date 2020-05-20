@@ -1,8 +1,16 @@
+body:before {
+  z-index: -1;
+  content: "";
+  position: fixed;
+  background-size: cover;
+}
+
 body {
   margin: 0;
+  background-image: linear-gradient(to right, #e9defa 0%, #fbfcdb 100%);
   /* background-image: url(Images/world.png); */
-  background-color: #eaeefb;
-  background-attachment: absolute;
+  /* background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%); */
+  /* background-color: #eaeefb; */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
