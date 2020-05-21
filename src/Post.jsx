@@ -2,7 +2,7 @@ import React from 'react';
 import PostComment from './PostComment'
 import UpdatePost from './UpdatePost'
 import AddComment from './AddComment'
-import { Button, Card, Header, Label, Form, TextArea } from 'semantic-ui-react'
+import { Button, Card, Feed, Header, Label, Form, TextArea } from 'semantic-ui-react'
 
 class Post extends React.Component {
   state = {
@@ -14,19 +14,19 @@ class Post extends React.Component {
   determineColor = (subject) => {
     switch (subject) {
       case 'Fitness':
-        return 'blue';
+        return '#faf1de';
 
       case 'Beauty':
-        return 'violet';
+        return '#fcdbfb';
 
       case 'Conservation':
-        return 'green';
+        return '#fcdbfb';
 
       case 'Finance':
         return 'olive';
 
       default:
-        return 'orange'
+        return '#fcdbfb';
     }
   }
 
@@ -92,7 +92,7 @@ class Post extends React.Component {
 
      if (post.comments.length > 0 && viewComments) {
       return (
-        <Card.Content>
+        <Feed>
           <Header as='h5'>
             Comments
           </Header>
@@ -109,7 +109,7 @@ class Post extends React.Component {
               )
             })
           }
-      </Card.Content>
+      </Feed>
       )
     }
   }
@@ -152,16 +152,16 @@ class Post extends React.Component {
     const color = this.determineColor(post.subject);
 
     return (
-      <Card color={color}>
+      <Card
+        color={color}
+        link
+        fluid
+        rounded
+      >
         <Card.Content>
-          <Card.Header>{post.author}</Card.Header>
-          <br/>
-          <Label color={color} size='tiny'>{post.subject}</Label>
+          <Card.Header>
+          {post.author}
 
-          {this.cardDescription()}
-        </Card.Content>
-
-        <Card.Content>
           <UpdatePost
             currentUser={currentUser}
             deletePost={deletePost}
@@ -170,14 +170,26 @@ class Post extends React.Component {
             post={post}
           />
 
-          {this.renderCommentInfo()}
+          </Card.Header>
+
+          <br/>
+
+          <Label color={color} size='tiny'>{post.subject}</Label>
+
+          {this.cardDescription()}
+
         </Card.Content>
 
-        <AddComment
-          addComment={this.addCommentToPost}
-          currentUser={currentUser}
-          post={post}
-        />
+        <Feed>
+          <AddComment
+            addComment={this.addCommentToPost}
+            currentUser={currentUser}
+            post={post}
+          />
+
+          {this.renderCommentInfo()}
+        </Feed>
+
 
         {this.renderComments()}
       </Card>

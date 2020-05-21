@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Comment, Divider, Icon } from 'semantic-ui-react'
+import { Button, Comment, Divider, Feed, Icon } from 'semantic-ui-react'
 
 const PostComment = (props) => {
   const { comment, currentUser, deleteComment } = props;
@@ -56,8 +56,6 @@ const PostComment = (props) => {
           {renderDeleteButton()}
         </Comment.Content>
       </Comment>
-
-      <Divider />
     </>
   );
 };

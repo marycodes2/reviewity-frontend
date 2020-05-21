@@ -13,6 +13,7 @@ class AddComment extends React.Component {
     if (!commenting) {
       return (
         <Button
+          size="tiny"
           onClick={() => this.setState({commenting: !commenting})}
         >
           Comment
@@ -32,17 +33,15 @@ class AddComment extends React.Component {
           />
 
           <Button
-            color="red"
             onClick={() => this.setState({commenting: false})}
-            >
-            Cancel
-          </Button>
+            size="tiny"
+            icon="cancel"
+          />
 
           <Button
-            type="submit"
-            color="green"
+            size="tiny"
+            icon="check"
           >
-            Submit
           </Button>
         </Form>
       )

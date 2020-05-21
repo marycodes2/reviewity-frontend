@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Icon } from 'semantic-ui-react'
+import { Button, Card, Dropdown, Icon } from 'semantic-ui-react'
 
 const UpdatePost = (props) => {
   const { currentUser, deletePost, editing, post, editPost } = props;
@@ -31,13 +31,27 @@ const UpdatePost = (props) => {
   if (currentUserOwnsPost) {
     return (
       <>
-        <Button size='tiny' icon onClick={editPost}>
-          <Icon name={editPostIcon}/>
-        </Button>
+        <Dropdown
+          floating
+          labeled
+          icon=""
+          text="..."
+          style={{float: "right"}}
+        >
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Button size='tiny' icon onClick={editPost}>
+                <Icon name={editPostIcon}/>
+              </Button>
+            </Dropdown.Item>
 
-        <Button size='tiny' icon onClick={handlePostDestroy}>
-          <Icon name='trash'/>
-        </Button>
+            <Dropdown.Item>
+              <Button size='tiny' icon onClick={handlePostDestroy}>
+                <Icon name='trash'/>
+              </Button>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </>
     )
   } else {
