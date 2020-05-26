@@ -2,7 +2,7 @@ import React from 'react';
 import PostComment from './PostComment'
 import UpdatePost from './UpdatePost'
 import AddComment from './AddComment'
-import { Button, Card, Feed, Header, Label, Form, TextArea } from 'semantic-ui-react'
+import { Button, Card, Comment, Feed, Header, Icon, Label, Form, TextArea } from 'semantic-ui-react'
 
 class Post extends React.Component {
   state = {
@@ -14,19 +14,19 @@ class Post extends React.Component {
   determineColor = (subject) => {
     switch (subject) {
       case 'Fitness':
-        return '#faf1de';
+        return '#fad0c4';
 
       case 'Beauty':
-        return '#fcdbfb';
+        return '#fad0c4';
 
       case 'Conservation':
-        return '#fcdbfb';
+        return '#fad0c4';
 
       case 'Finance':
-        return 'olive';
+        return '#fad0c4';
 
       default:
-        return '#fcdbfb';
+        return '#fad0c4';
     }
   }
 
@@ -79,6 +79,15 @@ class Post extends React.Component {
             value={editedPostContent}
           >
           </Form.Field>
+
+          <Button
+            size='tiny'
+            icon
+            onClick={this.editPost}
+            style={{float: 'right', marginTop: '-10px'}}
+          >
+            <Icon name='checkmark' />
+          </Button>
         </Form>
       )
     } else {
@@ -92,7 +101,7 @@ class Post extends React.Component {
 
      if (post.comments.length > 0 && viewComments) {
       return (
-        <Feed>
+        <Comment.Group style={{marginLeft: '10px'}}>
           <Header as='h5'>
             Comments
           </Header>
@@ -109,7 +118,7 @@ class Post extends React.Component {
               )
             })
           }
-      </Feed>
+      </Comment.Group>
       )
     }
   }
@@ -174,20 +183,25 @@ class Post extends React.Component {
 
           <br/>
 
-          <Label color={color} size='tiny'>{post.subject}</Label>
+          <Label
+            style={{backgroundColor: color, color: 'white'}}
+            size='tiny'
+          >
+            {post.subject}
+          </Label>
 
           {this.cardDescription()}
 
         </Card.Content>
 
         <Feed>
+          {this.renderCommentInfo()}
+
           <AddComment
             addComment={this.addCommentToPost}
             currentUser={currentUser}
             post={post}
           />
-
-          {this.renderCommentInfo()}
         </Feed>
 
 

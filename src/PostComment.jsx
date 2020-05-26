@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Comment, Divider, Feed, Icon } from 'semantic-ui-react'
+import { Button, Comment, Dropdown, Header, Icon } from 'semantic-ui-react'
 
 const PostComment = (props) => {
   const { comment, currentUser, deleteComment } = props;
@@ -28,13 +28,26 @@ const PostComment = (props) => {
   const renderDeleteButton = () => {
     if (currentUserOwnsComment) {
       return (
-        <Button
-          icon
-          onClick={handleCommentDestroy}
-          size='tiny'
+        <Dropdown
+          floating
+          labeled
+          icon=""
+          text="..."
+          style={{float: "right"}}
         >
-          <Icon name='trash'/>
-        </Button>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Header
+                as="h5"
+                link
+                onClick={handleCommentDestroy}
+                style={{float: "right"}}
+              >
+                Delete
+              </Header>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       )
     } else {
       return null;
@@ -45,6 +58,9 @@ const PostComment = (props) => {
     <>
       <Comment>
         <Comment.Content>
+
+          {renderDeleteButton()}
+
           <Comment.Author>
             {comment.author}
           </Comment.Author>
@@ -52,8 +68,6 @@ const PostComment = (props) => {
           <Comment.Text>
             {comment.content}
           </Comment.Text>
-
-          {renderDeleteButton()}
         </Comment.Content>
       </Comment>
     </>
